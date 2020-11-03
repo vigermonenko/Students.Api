@@ -1,14 +1,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace Students.Infrastructure.Entities
+namespace Students.Core.Models
 {
-    [Table("Students")]
-    public class Student
+    public class StudentDetailsModel
     {
-        [Key]
         public int Id { get; set; }
 
         [Required, MaxLength(100)]
@@ -20,6 +17,6 @@ namespace Students.Infrastructure.Entities
         [Required, MaxLength(50)]
         public string Group { get; set; }
 
-        public ICollection<Absenteeism> Absenteeism { get; set; }
+        public ICollection<AbsenteeismModel> StudentAbsenteeism { get; set; }
     }
 }

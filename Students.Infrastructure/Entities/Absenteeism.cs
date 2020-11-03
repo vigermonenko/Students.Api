@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Students.Infrastructure.Entities
 {
+    [Table("Absenteeism")]
     public class Absenteeism
     {
         [Key]
