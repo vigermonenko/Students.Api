@@ -9,6 +9,8 @@ namespace Students.Core.Services.Abstractions
 {
     public interface IStudentsService
     {
+        Task<ApiView<StudentDetailsModel>> GetStudentsDetailsAsync(int id);
+
         Task<ListApiView<IReadOnlyCollection<StudentThumbnailModel>>> GetStudentsListAsync(Paging paging);
 
         Task<ApiView<StudentDetailsModel>> AddStudentAsync(StudentDetailsModel student);

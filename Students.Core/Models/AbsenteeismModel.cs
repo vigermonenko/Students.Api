@@ -20,8 +20,5 @@ namespace Students.Core.Models
 
         [Required]
         public int DisciplineId { get; set; }
-
-        [Required, MaxLength(100)]
-        public string StudentLastName { get; set; }
     }
 }

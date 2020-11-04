@@ -27,6 +27,34 @@ namespace Students.Core.Services
         }
 
 
+        public async Task<ApiView<StudentDetailsModel>> GetStudentsDetailsAsync(int id)
+        {
+            await using CoreContext coreContext = CoreContext;
+
+            Student student = await coreContext.Students.AsNoTracking()
+                .Include(s => s.Absenteeism)
+                .ThenInclude(a => a.Discipline)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            StudentDetailsModel model = new StudentDetailsModel
+            {
+                Id = id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Group = student.Group,
+                StudentAbsenteeism = student.Absenteeism.Select(a => new AbsenteeismModel
+                {
+                    Id = a.Id,
+                    StudentId = id,
+                    DisciplineId = a.DisciplineId,
+                    Date = a.Date,
+                    StudentFullName = $"{student.FirstName} {student.LastName}",
+                }).ToArray()
+            };
+
+            throw new System.NotImplementedException();
+        }
+
         public async Task<ListApiView<IReadOnlyCollection<StudentThumbnailModel>>> GetStudentsListAsync(Paging paging)
         {
             await using CoreContext coreContext = CoreContext;
