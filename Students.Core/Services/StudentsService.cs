@@ -63,7 +63,10 @@ namespace Students.Core.Services
                 .Skip(paging.Offset).Take(paging.Size)
                 .Select(s => new StudentThumbnailModel
                 {
-
+                    Id = s.Id,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName,
+                    Group = s.Group,
                 })
                 .ToListAsync();
 

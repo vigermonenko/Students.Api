@@ -33,6 +33,10 @@ namespace Students.Api
 
             services.AddSingleton<ICoreContextSettings, CoreContextSettings>();
             services.AddSingleton<IStudentsService, StudentsService>();
+            services.AddSingleton<IDisciplinesService, DisciplinesService>();
+            services.AddSingleton<IAbsenteeismService, AbsenteeismService>();
+
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,6 +46,11 @@ namespace Students.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(c =>
+            {
+                c.AllowAnyOrigin()
+                    .AllowAnyHeader();
+            });
             app.UseRouting();
 
             app.UseEndpoints(e => e.MapControllers());
