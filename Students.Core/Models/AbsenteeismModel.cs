@@ -15,10 +15,12 @@ namespace Students.Core.Models
         [Required]
         public int StudentId { get; set; }
 
-        [Required, MaxLength(200)]
+        [MaxLength(200)]
         public string StudentFullName { get; set; }
 
         [Required]
         public int DisciplineId { get; set; }
+
+        public string DisciplineName { get; set; }
     }
 }

@@ -36,23 +36,35 @@ namespace Students.Core.Services
                 .ThenInclude(a => a.Discipline)
                 .FirstOrDefaultAsync(s => s.Id == id);
 
+            if (student == null)
+            {
+                return new ApiView<StudentDetailsModel>(HttpStatusCode.NotExtended) { Message = "Student not found." };
+            }
+
             StudentDetailsModel model = new StudentDetailsModel
             {
                 Id = id,
                 FirstName = student.FirstName,
                 LastName = student.LastName,
                 Group = student.Group,
-                StudentAbsenteeism = student.Absenteeism.Select(a => new AbsenteeismModel
+                StudentAbsenteeism = student.Absenteeism
+                    .OrderByDescending(a => a.Date)
+                    .Select(a => new AbsenteeismModel
                 {
                     Id = a.Id,
                     StudentId = id,
                     DisciplineId = a.DisciplineId,
                     Date = a.Date,
                     StudentFullName = $"{student.FirstName} {student.LastName}",
+                    DisciplineName = a.Discipline.Name,
                 }).ToArray()
             };
 
-            throw new System.NotImplementedException();
+            return new ApiView<StudentDetailsModel>(HttpStatusCode.OK)
+            {
+                Message = "Ok",
+                Payload = model,
+            };
         }
 
         public async Task<ListApiView<IReadOnlyCollection<StudentThumbnailModel>>> GetStudentsListAsync(Paging paging)
@@ -103,6 +115,51 @@ namespace Students.Core.Services
             {
                 Message = "New student was successfully added.",
                 Payload = student,
+            };
+        }
+
+        public async Task<ApiView<AbsenteeismModel>> AddStudentAbsenAsync(AbsenteeismModel absent)
+        {
+            await using CoreContext coreContext = CoreContext;
+
+            Absenteeism absentDto = new Absenteeism
+            {
+                Date = absent.Date,
+                StudentId = absent.StudentId,
+                DisciplineId = absent.DisciplineId,
+            };
+
+            await coreContext.Absenteeism.AddAsync(absentDto);
+            await coreContext.SaveChangesAsync();
+
+            absent.Id = absentDto.Id;
+
+            return new ApiView<AbsenteeismModel>(HttpStatusCode.Created)
+            {
+                Message = "Absnet was sucessfully added.",
+                Payload = absent,
+            };
+        }
+
+        public async Task<ApiView<object>> RemoveStudentAsync(int id)
+        {
+            await using CoreContext coreContext = CoreContext;
+            Student student = await coreContext.Students.FindAsync(id);
+
+            if (student == null)
+            {
+                return new ApiView<object>(HttpStatusCode.NotFound)
+                {
+                    Message = "Student not fount.",
+                };
+            }
+
+            coreContext.Students.Remove(student);
+            await coreContext.SaveChangesAsync();
+
+            return new ApiView<object>(HttpStatusCode.OK)
+            {
+                Message = "Student was successfully deleted."
             };
         }
     }

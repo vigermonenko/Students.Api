@@ -78,5 +78,29 @@ namespace Students.Core.Services
                 Payload = discipline,
             };
         }
+
+        public async Task<ApiView<object>> RemoveDiciplineAsync(int id)
+        {
+            await using CoreContext context = CoreContext;
+
+            await using CoreContext coreContext = CoreContext;
+            Discipline discipline = await coreContext.Disciplines.FindAsync(id);
+
+            if (discipline == null)
+            {
+                return new ApiView<object>(HttpStatusCode.NotFound)
+                {
+                    Message = "Discipline not fount.",
+                };
+            }
+
+            coreContext.Disciplines.Remove(discipline);
+            await coreContext.SaveChangesAsync();
+
+            return new ApiView<object>(HttpStatusCode.OK)
+            {
+                Message = "Discipline was successfully deleted."
+            };
+        }
     }
 }

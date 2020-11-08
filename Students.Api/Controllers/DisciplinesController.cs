@@ -35,5 +35,12 @@ namespace Students.Api.Controllers
             var result = await _disciplinesService.AddDisciplineAsync(model);
             return StatusCode(result.Status, result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ApiView<object>>> RemoveStudentAsync([FromRoute] int id)
+        {
+            var result = await _disciplinesService.RemoveDiciplineAsync(id);
+            return StatusCode(result.Status, result);
+        }
     }
 }

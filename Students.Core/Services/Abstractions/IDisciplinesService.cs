@@ -11,5 +11,7 @@ namespace Students.Core.Services.Abstractions
         Task<ListApiView<IReadOnlyCollection<DisciplineModel>>> GetDisciplinesListAsync(Paging paging);
 
         Task<ApiView<DisciplineModel>> AddDisciplineAsync(DisciplineModel discipline);
+
+        Task<ApiView<object>> RemoveDiciplineAsync(int id);
     }
 }

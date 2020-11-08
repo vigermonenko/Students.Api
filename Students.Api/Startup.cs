@@ -49,7 +49,7 @@ namespace Students.Api
             app.UseCors(c =>
             {
                 c.AllowAnyOrigin()
-                    .AllowAnyHeader();
+                    .WithMethods("GET", "POST", "DELETE");
             });
             app.UseRouting();
 

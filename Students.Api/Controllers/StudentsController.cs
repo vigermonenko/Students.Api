@@ -43,5 +43,19 @@ namespace Students.Api.Controllers
             var result = await _studentsService.AddStudentAsync(model);
             return StatusCode(result.Status, result);
         }
+
+        [HttpPost("absents")]
+        public async Task<ActionResult<ApiView<AbsenteeismModel>>> AddStudentAbsentAsync([FromBody] AbsenteeismModel model)
+        {
+            var result = await _studentsService.AddStudentAbsenAsync(model);
+            return StatusCode(result.Status, result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ApiView<object>>> RemoveStudentAsync([FromRoute] int id)
+        {
+            var result = await _studentsService.RemoveStudentAsync(id);
+            return StatusCode(result.Status, result);
+        }
     }
 }
