@@ -54,7 +54,7 @@ namespace Students.Core.Services
         {
             await using CoreContext context = CoreContext;
 
-            if (context.Disciplines.AsNoTracking().Any(d => d.Id == discipline.Id))
+            if (context.Disciplines.AsNoTracking().Any(d => d.Name == discipline.Name))
             {
                 return new ApiView<DisciplineModel>(HttpStatusCode.BadRequest)
                 {
