@@ -1,4 +1,4 @@
-namespace Students.Infrastructure.Entities
+namespace Students.Infrastructure
 {
     public interface ICoreContextSettings
     {

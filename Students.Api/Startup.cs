@@ -8,7 +8,7 @@ using Students.Api.Configuration;
 using Students.Api.Settings;
 using Students.Core.Services;
 using Students.Core.Services.Abstractions;
-using Students.Infrastructure.Entities;
+using Students.Infrastructure;
 
 
 namespace Students.Api
